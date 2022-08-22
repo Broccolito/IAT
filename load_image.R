@@ -1,5 +1,6 @@
 library(dplyr)
 library(ggplot2)
+library(plotly)
 
 ### Load image data from normal group
 filelist = list.files(path = "image_data/normal/", pattern = "txt")
@@ -40,31 +41,44 @@ fp_batch2 = data.frame(
   filepath = filepath
 )
 
-fp = rbind.data.frame(fp_batch1, fp_batch2)
-
 diseased_data = vector()
-for(i in 1:dim(fp)[1]){
-  f = read.delim(file = fp$filepath[i], header = F)
+
+for(i in 1:dim(fp_batch1)[1]){
+  f = read.delim(file = fp_batch1$filepath[i], header = F)
   names(f) = c("x", "y")
-  file_name = fp$filelist[i]
+  file_name = fp_batch1$filelist[i]
   f$index = 1:dim(f)[1]
   f$file_name = file_name
-  f$condition = "diseased"
+  f$condition = "diseased1"
   diseased_data = rbind.data.frame(diseased_data, f)
   rm(f)
 }
 
+for(i in 1:dim(fp_batch2)[1]){
+  f = read.delim(file = fp_batch2$filepath[i], header = F)
+  names(f) = c("x", "y")
+  file_name = fp_batch2$filelist[i]
+  f$index = 1:dim(f)[1]
+  f$file_name = file_name
+  f$condition = "diseased2"
+  diseased_data = rbind.data.frame(diseased_data, f)
+  rm(f)
+}
+
+
 ### Combine the normal and diseased data
 data = rbind.data.frame(normal_data, diseased_data)
+
+
 
 get_distance = function(p1, p2){
   ((p1$x - p2$x)^2 + (p1$y - p2$y)^2)^0.5
 } 
 
-file_data_transformned = vector()
-for(f in unique(diseased_data$file_name)){
+data_normalized = vector()
+for(f in unique(data$file_name)){
   
-  file_data = filter(diseased_data, file_name == f) %>%
+  file_data = filter(data, file_name == f) %>%
     filter(!(index %in% c(1, 2, 3)))
   
   index6_position = filter(file_data, index == 6)[,1:2]
@@ -80,12 +94,14 @@ for(f in unique(diseased_data$file_name)){
   file_data$x = file_data$x/distance67
   file_data$y = -file_data$y/distance56
   
-  file_data_transformned = rbind.data.frame(file_data_transformned,
-                                            file_data)
+  data_normalized = rbind.data.frame(data_normalized,
+                                     file_data)
 }
 
-ggplot(data = file_data_transformned, aes(x = x, y = y)) + 
-  geom_point(aes(color = file_name))
-  # xlim(c(0, 1)) + 
-  # ylim(c(0, 1))
+data_normalized = data_normalized %>%
+  mutate(condition = ifelse(condition != "normal", "diseased", "normal"))
+
+ggplot(data = data_normalized, aes(x = x, y = y)) +
+  geom_point(aes(color = "condition"))
+
 
