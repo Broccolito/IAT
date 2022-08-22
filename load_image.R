@@ -102,6 +102,7 @@ data_normalized = data_normalized %>%
   mutate(condition = ifelse(condition != "normal", "diseased", "normal"))
 
 ggplot(data = data_normalized, aes(x = x, y = y)) +
-  geom_point(aes(color = "condition"))
+  geom_point(aes(color = condition)) + 
+  facet_grid(condition~.)
 
 
