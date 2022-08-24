@@ -18,7 +18,7 @@ load("data.rda")
 ```
 
 ```{r}
-plt = ggplot(data = data_normalized, aes(x = x, y = y)) +
+plt = ggplot(data = data, aes(x = x, y = y)) +
   geom_point(aes(color = condition)) +
   labs(color = "") +
   facet_grid(condition~.) +

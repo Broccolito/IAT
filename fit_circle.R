@@ -11,7 +11,8 @@ rm(list = ls())
 load("data.rda")
 
 data = data %>%
-  filter(index >= 37)
+  filter(index >= 36) %>%
+  filter(x > -0.1)
 
 circle_data = data %>%
   split(.$file_name) %>%
@@ -28,14 +29,15 @@ circle_data = data %>%
   }) %>%
   reduce(rbind.data.frame)
 
+t.test(radius ~ condition, circle_data)
 
-ggplot(data = circle_data, aes(x = condition, y = radius, group = file_name)) +
-  geom_point(aes(color = condition)) +
-  theme(text = element_text(size = 15))
+
+# ggplot(data = circle_data, aes(x = condition, y = radius, group = file_name)) +
+#   geom_point(aes(color = condition)) +
+#   theme(text = element_text(size = 15))
 
 
 plt = ggplot(data = data, aes(x = x, y = y, group = file_name)) +
   geom_point(aes(color = condition)) +
-  # geom_line() +
   theme(text = element_text(size = 15))
 ggplotly(plt)

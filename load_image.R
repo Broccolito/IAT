@@ -89,17 +89,19 @@ for(f in unique(data$file_name)){
   distance67 = get_distance(index6_position, index7_position)
   distance56 = get_distance(index5_position, index6_position)
   
-  file_data$x = file_data$x - index6_position$x
-  file_data$y = file_data$y - index6_position$y
-  
-  file_data$x = file_data$x/distance67
-  file_data$y = -file_data$y/distance56
-  
   n_point = max(file_data$index)
   wb_xy = filter(file_data, index == ifelse(n_point<=90, n_point,90))
   
   file_data$x = file_data$x - wb_xy$x
   file_data$y = file_data$y - wb_xy$y
+  
+  # file_data$x = file_data$x - index6_position$x
+  # file_data$y = file_data$y - index6_position$y
+  
+  file_data$x = file_data$x/distance67
+  file_data$y = -file_data$y/distance56
+  
+
   
   data_normalized = rbind.data.frame(data_normalized,
                                      file_data)
