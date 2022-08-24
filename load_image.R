@@ -3,6 +3,10 @@ library(ggplot2)
 library(ggpubr)
 library(plotly)
 
+get_distance = function(p1, p2){
+  unlist(((p1[1] - p2[1])^2 + (p1[2] - p2[2])^2)^0.5)
+}
+
 ### Load image data from normal group
 filelist = list.files(path = "image_data/normal/", pattern = "txt")
 filepath = paste0("image_data/normal/", filelist)
@@ -68,13 +72,9 @@ for(i in 1:dim(fp_batch2)[1]){
 
 
 ### Combine the normal and diseased data
-data = rbind.data.frame(normal_data, diseased_data)
+data = rbind.data.frame(normal_data, diseased_data) %>%
+  mutate(condition = ifelse(condition != "normal", "diseased", "normal"))
 
-
-
-get_distance = function(p1, p2){
-  ((p1$x - p2$x)^2 + (p1$y - p2$y)^2)^0.5
-} 
 
 data_normalized = vector()
 for(f in unique(data$file_name)){
@@ -95,14 +95,19 @@ for(f in unique(data$file_name)){
   file_data$x = file_data$x/distance67
   file_data$y = -file_data$y/distance56
   
+  n_point = max(file_data$index)
+  wb_xy = filter(file_data, index == ifelse(n_point<=90, n_point,90))
+  
+  file_data$x = file_data$x - wb_xy$x
+  file_data$y = file_data$y - wb_xy$y
+  
   data_normalized = rbind.data.frame(data_normalized,
                                      file_data)
 }
 
-data_normalized = data_normalized %>%
-  mutate(condition = ifelse(condition != "normal", "diseased", "normal"))
+data = data_normalized
 
-save(data_normalized, file = "data.rda")
+save(data, file = "data.rda")
 
 
 
