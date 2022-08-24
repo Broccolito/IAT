@@ -102,17 +102,7 @@ for(f in unique(data$file_name)){
 data_normalized = data_normalized %>%
   mutate(condition = ifelse(condition != "normal", "diseased", "normal"))
 
-plt = ggplot(data = data_normalized, aes(x = x, y = y)) +
-  geom_point(aes(color = condition)) + 
-  labs(color = "") + 
-  facet_grid(condition~.) + 
-  xlab("") + 
-  ylab("") + 
-  theme_pubr() + 
-  theme(text = element_text(size = 10))
-
-ggsave(filename = "pointsets.png", device = "png", plot = plt,
-       dpi = 1200, width = 5, height = 7)
+save(data_normalized, file = "data.rda")
 
 
 
