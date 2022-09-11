@@ -15,5 +15,8 @@ pitch_data = data %>%
       tibble(condition, file_name, pitch_angle)
     )
   }) %>%
-  reduce(rbind.data.frame)
+  reduce(rbind.data.frame) %>%
+  filter(pitch_angle <= 50)
+
+save(pitch_data, file = "pitch_data.rda")
 
