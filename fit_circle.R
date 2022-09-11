@@ -2,11 +2,6 @@ library(dplyr)
 library(circular)
 library(purrr)
 
-library(ggplot2)
-library(ggpubr)
-library(gridExtra)
-library(plotly)
-
 rm(list = ls())
 load("data.rda")
 
