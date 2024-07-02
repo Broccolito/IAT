@@ -263,6 +263,8 @@ find_theta = function(pointset_filename,
   
 }
 
-# theta = find_theta(pointset_filename = "Diseased_combined/1272902.txt", insertion_peak_index = 90); theta
+theta = find_theta(pointset_filename = "Diseased_combined/1272902.txt", insertion_peak_index = 90); theta
 
 # theta = find_theta(pointset_filename = "image_data/diseased/batch1/1272902.txt", insertion_peak_index = 90)
+
+# save(theta, file = "example_theta.rda")
