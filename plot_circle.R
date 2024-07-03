@@ -13,7 +13,7 @@ load("circle_data.rda")
 circle_data$a = circle_data$a + 0.7444787
 
 circle_data = circle_data %>%
-  mutate(condition = ifelse(condition == "diseased", "Diseased", "Control"))
+  mutate(condition = ifelse(condition == "diseased", "IAT", "Control"))
 
 plt1 = ggplot(data = circle_data, aes(x = condition, y = radius)) +
   geom_boxplot(outlier.shape = NA) + 
@@ -24,7 +24,7 @@ plt1 = ggplot(data = circle_data, aes(x = condition, y = radius)) +
   xlab("") + 
   ylab("Circle Radius (A.U.)") + 
   stat_compare_means(method = "t.test", 
-                     comparisons = list(c("Diseased", "Control")),
+                     comparisons = list(c("IAT", "Control")),
                      symnum.args = list(cutpoints = c(0, 0.05, Inf), 
                                         symbols = c("*", "NS"))) +
   theme_pubclean() + 
@@ -40,7 +40,7 @@ plt2 = ggplot(data = circle_data, aes(x = condition, y = a)) +
   xlab("") + 
   ylab("Horizontal Offset (A.U.)") + 
   stat_compare_means(method = "t.test", 
-                     comparisons = list(c("Diseased", "Control")),
+                     comparisons = list(c("IAT", "Control")),
                      symnum.args = list(cutpoints = c(0, 0.05, Inf), 
                                         symbols = c("*", "NS"))) +
   theme_pubclean() + 
@@ -55,7 +55,7 @@ plt3 = ggplot(data = circle_data, aes(x = condition, y = b)) +
   xlab("") + 
   ylab("Vertical Offset (A.U.)") + 
   stat_compare_means(method = "t.test", 
-                     comparisons = list(c("Diseased", "Control")),
+                     comparisons = list(c("IAT", "Control")),
                      symnum.args = list(cutpoints = c(0, 0.05, Inf), 
                                         symbols = c("*", "NS"))) +
   theme_pubclean() + 
