@@ -2,10 +2,14 @@ library(dplyr)
 library(ggplot2)
 library(ggpubr)
 library(readxl)
+library(ggpubr)
 
 d = read_xlsx(path = "IAT Measurements at 90.xlsx")
 
-d$group = factor(d$group, levels = c("Control", "Diseased"))
+d = d %>%
+  mutate(group = ifelse(group == "Diseased", "IAT", group))
+
+d$group = factor(d$group, levels = c("Control", "IAT"))
 
 plt1 = ggplot(data = d, aes(x = group, y = optimum_insertion_angle)) +
   geom_boxplot(outlier.shape = NA) + 
@@ -16,7 +20,7 @@ plt1 = ggplot(data = d, aes(x = group, y = optimum_insertion_angle)) +
   xlab("") + 
   ylab("Optimum Insertion Angle (°)") + 
   stat_compare_means(method = "t.test", 
-                     comparisons = list(c("Diseased", "Control")),
+                     comparisons = list(c("IAT", "Control")),
                      symnum.args = list(cutpoints = c(0, 0.05, Inf), 
                                         symbols = c("*", "NS"))) +
   theme_pubclean() + 

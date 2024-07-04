@@ -175,14 +175,17 @@ post_rotation_xy = mutate(post_rotation_xy, anno = ifelse(anno == "insertion", "
   anno == "marker", "Marker", ifelse(anno == "superior", "Superior", anno)
 )))
 post_rotation_xy$x = post_rotation_xy$x + 0.72516774
-post_rotation_xy$anno = factor(post_rotation_xy$anno, levels = c("Marker", "Superior", "Insertion", "Optimum Rotation"))  
+post_rotation_xy = mutate(post_rotation_xy, anno = ifelse(
+  anno == "Optimum Rotation", "Optimum Insertion", anno
+))
+post_rotation_xy$anno = factor(post_rotation_xy$anno, levels = c("Marker", "Superior", "Insertion", "Optimum Insertion"))  
 
 plt_rotated = ggplot(data = post_rotation_xy,
                      aes(x = x, y = y, index = index, anno = anno)) +
   annotate("rect", xmin = 0, xmax = 1, ymin = 0, ymax = 1, alpha = 0.2, color = "black", linetype = "dashed") +
   geom_point(aes(fill = anno), shape = 22, color = "black", size = 3) +
   scale_fill_manual(values = c("gray",  "#619CFF", "#F8766D", "#C77CFF")) + 
-  gg_circle(r=r, xc=o_x + 0.72516774, yc=o_y) + 
+  gg_circle(r=r, xc=o_x + 0.72516774, yc=o_y) +
   labs(fill = "") +
   scale_x_continuous(breaks = c(0, 0.5, 1)) +
   scale_y_continuous(breaks = c(0, 0.5, 1)) + 

@@ -13,8 +13,8 @@ load("circle_data.rda")
 data = filter(data, condition == "normal")
 
 data = data %>%
-  filter(!(index %in% c(1,2,3,8:14))) %>%
-  mutate(marker = ifelse(index %in% c(4,5,6,7), "Marker", ifelse(index %in% 15:36, "Superior", "Insertion")))
+  filter(!(index %in% c(1,2,3))) %>%
+  mutate(marker = ifelse(index %in% c(4,5,6,7, 8:14), "Marker", ifelse(index %in% 15:36, "Superior", "Insertion")))
 
 data$marker = factor(data$marker, levels = c("Marker", "Superior", "Insertion"))
 data$x = data$x + 0.7444787
@@ -46,9 +46,9 @@ plt = ggplot(data = data, aes(x = x, y = y)) +
   xlab("X") + ylab("Y") + 
   scale_x_continuous(breaks = c(0, 0.5, 1)) +
   scale_y_continuous(breaks = c(0, 0.5, 1)) + 
-  annotate("rect", xmin = 0, xmax = 1, ymin = 0, ymax = 1, alpha = 0.2, fill = "coral") +
+  annotate("rect", xmin = 0, xmax = 1, ymin = 0, ymax = 1, alpha = 0.2, color = "black") +
   geom_path(data = circle_data, aes(x = x, y = y), color = "black", linetype = "solid") + 
-  theme_minimal() +
+  theme_classic() +
   theme(text = element_text(size = 20), legend.position = "top"); plt
 
 
