@@ -12,6 +12,13 @@ load("circle_data.rda")
 
 circle_data$a = circle_data$a + 0.7444787
 
+# circle_data = circle_data %>%
+#   filter(condition == "normal")
+# 
+# mean(circle_data$a)
+# mean(circle_data$b)
+# mean(circle_data$radius)
+
 circle_data = circle_data %>%
   mutate(condition = ifelse(condition == "diseased", "IAT", "Control"))
 
