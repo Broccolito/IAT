@@ -11,8 +11,8 @@ d = d %>%
 
 d$group = factor(d$group, levels = c("Control", "IAT"))
 
-# summary(filter(d, group == "Control")$optimum_insertion_angle)
-# summary(filter(d, group == "IAT")$optimum_insertion_angle)
+# quantile(filter(d, group == "Control")$optimum_insertion_angle,0.975)
+# quantile(filter(d, group == "IAT")$optimum_insertion_angle, 0.025)
 
 plt1 = ggplot(data = d, aes(x = group, y = optimum_insertion_angle)) +
   geom_boxplot(outlier.shape = NA) + 
