@@ -18,7 +18,7 @@ find_theta = function(pointset_filename,
   cat(paste0("processing ", pointset_filename, "...\n"))
   try({
     scale_index_start = scale_index_range[1]
-    scale_index_end =scale_index_range[2]
+    scale_index_end = scale_index_range[2]
     marker_index_start = marker_index_range[1]
     marker_index_end = marker_index_range[2]
     superior_index_start = superior_index_range[1]
